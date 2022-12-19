@@ -10,4 +10,4 @@ Input the relvant infomation into the files...
 - mongodb
 
 **../Commands/General/Suggest.js**
-- Line #32 `const channel = guild.channels.cache.get(\`put your suggestion channel id here\`); // only non-multi-guilded part`
+- Line #32 "const channel = guild.channels.cache.get\`**put your suggestion channel id here**\`); // only non-multi-guilded part"
