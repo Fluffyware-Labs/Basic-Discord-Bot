@@ -58,7 +58,7 @@ module.exports = {
                             client.user.setActivity(activity, { type: ActivityType.Playing });
                             break;
                         case `Streaming`:
-                            client.user.setActivity(activity, { type: ActivityType.Streaming, url: `your twitch url` }); // otherwise it won't work!!
+                            client.user.setActivity(activity, { type: ActivityType.Streaming, url: `your twitch url` }); // replace `your twitch url` with your Twitch URL eg. `https://www.twitch.tv/username`
                             break;
                         case `Listening`:
                             client.user.setActivity(activity, { type: ActivityType.Listening });
