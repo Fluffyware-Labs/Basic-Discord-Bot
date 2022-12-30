@@ -5,12 +5,14 @@ function handleLogs(client) {
 
     function send_log(guildId, embed) {
         logSchema.findOne({ Guild: guildId }, async (err, data) => {
+            if (!data || !data.Channel) return;
             const LogChannel = client.channels.cache.get(data.Channel);
             embed.setTimestamp();
             LogChannel.send({ embeds: [embed] });
         });
     }
 
+    // Message Deleted
     client.on("messageDelete", function (message) {
         if (message.author.bot) return;
 
@@ -68,6 +70,7 @@ function handleLogs(client) {
 
         const embed = new EmbedBuilder()
             .setTitle('User Started Boosting!')
+            .setThumbnail(member.user.displayAvatarURL())
             .setColor('Pink')
             .setDescription(`**${member.user.tag}** has started boosting  ${member.guild.name}!`);
         return send_log(member.guild.id, embed);
@@ -79,6 +82,7 @@ function handleLogs(client) {
 
         const embed = new EmbedBuilder()
             .setTitle('User Stopped Boosting!')
+            .setThumbnail(member.user.displayAvatarURL())
             .setColor('Pink')
             .setDescription(`**${member.user.tag}** has stopped boosting  ${member.guild.name}!`);
 
@@ -91,6 +95,7 @@ function handleLogs(client) {
 
         const embed = new EmbedBuilder()
             .setTitle('User Got Role!')
+            .setThumbnail(member.user.displayAvatarURL())
             .setColor('Green')
             .setDescription(`**${member.user.tag}** got the role \`${role.name}\``);
 
@@ -103,6 +108,7 @@ function handleLogs(client) {
 
         const embed = new EmbedBuilder()
             .setTitle('User Lost Role!')
+            .setThumbnail(member.user.displayAvatarURL())
             .setColor('Red')
             .setDescription(`**${member.user.tag}** lost the role \`${role.name}\``);
 
@@ -115,6 +121,7 @@ function handleLogs(client) {
 
         const embed = new EmbedBuilder()
             .setTitle('Nickname Updated')
+            .setThumbnail(member.user.displayAvatarURL())
             .setColor('Green')
             .setDescription(`${member.user.tag} changed nickname from \`${oldNickname}\` to \`${newNickname}\``);
 
@@ -127,6 +134,7 @@ function handleLogs(client) {
 
         const embed = new EmbedBuilder()
             .setTitle('User Joined')
+            .setThumbnail(member.user.displayAvatarURL())
             .setColor('Green')
             .setDescription(`Member: ${member.user} (\`${member.user.id}\`)\n\`${member.user.tag}\``,
                 member.user.displayAvatarURL({ dynamic: true }));
@@ -135,11 +143,12 @@ function handleLogs(client) {
 
     });
 
-    // Member Joined
+    // Member Left
     client.on("guildMemberRemove", (member) => {
 
         const embed = new EmbedBuilder()
             .setTitle('User Left')
+            .setThumbnail(member.user.displayAvatarURL())
             .setColor('Red')
             .setDescription(`Member: ${member.user} (\`${member.user.id}\`)\n\`${member.user.tag}\``,
                 member.user.displayAvatarURL({ dynamic: true }));
@@ -280,7 +289,7 @@ function handleLogs(client) {
 
     })
 
-    // Avatar Updated
+    /*// Avatar Updated
     client.on("userAvatarUpdate", (user, oldAvatarURL, newAvatarURL) => {
 
         const embed = new EmbedBuilder()
@@ -326,7 +335,7 @@ function handleLogs(client) {
 
         return send_log(user.guild.id, embed);
 
-    })
+    })*/ // Tracking currently broken
 
     // Joined VC
     client.on("voiceChannelJoin", (member, channel) => {
@@ -486,7 +495,7 @@ function handleLogs(client) {
     });
 
     // User Banned
-    client.on("guildBanAdd", ({guild, user}) => {
+    client.on("guildBanAdd", ({ guild, user }) => {
 
         const embed = new EmbedBuilder()
             .setTitle('User Banned')
@@ -499,7 +508,7 @@ function handleLogs(client) {
     });
 
     // User Unbanned
-    client.on("guildBanRemove", ({guild, user}) => {
+    client.on("guildBanRemove", ({ guild, user }) => {
 
         const embed = new EmbedBuilder()
             .setTitle('User Unbanned')
@@ -537,5 +546,3 @@ function handleLogs(client) {
 }
 
 module.exports = { handleLogs };
-
-// this code will be in the description
