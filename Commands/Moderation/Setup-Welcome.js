@@ -1,4 +1,4 @@
-const { EmbedBuilder, SlashCommandBuilder, PermissionFlagsBits } = require(`discord.js`);
+const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } = require(`discord.js`);
 const welcomeSchema = require(`../../Models/Welcome`);
 const { model, Schema } = require(`mongoose`);
 
