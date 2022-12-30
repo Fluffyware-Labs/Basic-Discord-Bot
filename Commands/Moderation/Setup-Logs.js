@@ -1,5 +1,6 @@
-const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder, ChannelType } = require(`discord.js`);
+const { EmbedBuilder, SlashCommandBuilder, PermissionFlagsBits } = require(`discord.js`);
 const logSchema = require(`../../Models/Logs`);
+const { model, Schema } = require(`mongoose`);
 
 module.exports = {
     data: new SlashCommandBuilder()
