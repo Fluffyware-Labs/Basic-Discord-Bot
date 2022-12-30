@@ -2,7 +2,7 @@ const { SlashCommandBuilder, PermissionFlagsBits, ActivityType, EmbedBuilder } =
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator) // only for admin users
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .setName(`update`)
         .setDescription(`Update the bots presences.`)
         .addSubcommand(subcommand =>
