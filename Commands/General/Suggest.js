@@ -10,9 +10,8 @@ module.exports = {
                 .setDescription(`Select an option.`)
                 .setRequired(true)
                 .addChoices(
-                    { name: `Youtube Video`, value: `Youtube` },
                     { name: `Discord`, value: `Discord` },
-                    { name: `Patreon`, value: `Patreon` },
+                    { name: `Website`, value: `Website` },
                     { name: `Services`, value: `Services` },
                     { name: `Other`, value: `Other` },
                 )
@@ -29,7 +28,7 @@ module.exports = {
         const type = options.getString(`type`);
         const description = options.getString(`description`);
 
-        const channel = guild.channels.cache.get(`put your suggestion channel id here`); // only non-multi-guilded part
+        const channel = guild.channels.cache.get(`Channel_ID_#`); // Replace `Channel_ID_#` with your channel ID# eg. `1234567890`
 
         const embed = new EmbedBuilder()
             .setColor(`Orange`)
@@ -43,7 +42,7 @@ module.exports = {
 
         const buttons = new ActionRowBuilder().addComponents(
             new ButtonBuilder().setCustomId(`suggest-accept`).setLabel(`Accept`).setStyle(ButtonStyle.Success),
-            new ButtonBuilder().setCustomId(`suggest-decline`).setLabel(`Decline`).setStyle(ButtonStyle.Danger), // you can use this format, but I will change it to this:
+            new ButtonBuilder().setCustomId(`suggest-decline`).setLabel(`Decline`).setStyle(ButtonStyle.Danger),
         );
 
         try {
