@@ -4,7 +4,6 @@ const {
   Partials,
   Collection,
 } = require("discord.js");
-const YoutubePoster = require("discord-youtube");
 const logs = require("discord-logs");
 
 const { handleLogs } = require("./Handlers/handleLogs");
@@ -20,10 +19,8 @@ logs(client, {
   debug: true
 });
 
-client.ytp = new YoutubePoster(client, {
-  loop_delay_in_min: 1
-});
 client.commands = new Collection();
+client.buttons = new Collection();
 client.config = require("./config.json");
 
 client.login(client.config.token).then(() => {
@@ -31,5 +28,3 @@ client.login(client.config.token).then(() => {
   loadEvents(client);
   loadCommands(client);
 });
-
-module.exports = client;
