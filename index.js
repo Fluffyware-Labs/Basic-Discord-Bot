@@ -20,7 +20,6 @@ logs(client, {
 });
 
 client.commands = new Collection();
-client.buttons = new Collection();
 client.config = require("./config.json");
 
 client.login(client.config.token).then(() => {
