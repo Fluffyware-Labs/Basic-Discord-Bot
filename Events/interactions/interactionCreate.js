@@ -12,15 +12,34 @@ module.exports = {
       }
       command.execute(interaction, client);
     } else if (interaction.isButton()) {
+      {
+        // "name-param1-param2-...."
+        const [name, ...params] = interaction.customId.split("-")
 
-      if (customId == "verify") {
-        const role = interaction.guild.roles.cache.get("1011041531114815579");
-        return interaction.member.roles.add(role).then((member) =>
-          interaction.reply({
-            content: `${role} has been assigned to you.`,
-            ephemeral: true,
-          })
-        );
+        const button = client.buttons.get(name)
+
+        if (!button) return
+        button.run(client, interaction, params)
+      }
+    } else if (interaction.isStringSelectMenu()) {
+      if (customId == "reaction-roles") {
+        for (let i = 0; i < values.length; i++) {
+          const roleId = values[i];
+
+          const role = guild.roles.cache.get(roleId);
+          const hasRole = member.roles.cache.has(roleId);
+
+          switch (hasRole) {
+            case true:
+              member.roles.remove(roleId);
+              break;
+            case false:
+              member.roles.add(roleId);
+              break;
+          }
+        }
+
+        interaction.reply({ content: "Roles updated.", ephemeral: true });
       }
     } else {
       return;
