@@ -4,7 +4,7 @@ module.exports = {
   name: "interactionCreate",
 
   async execute(interaction, client) {
-    const { customId, values, guild, member } = interaction; // you need to destructure values from interaction first to use it below
+    const { customId, values, guild, member } = interaction;
     if (interaction.isChatInputCommand()) {
       const command = client.commands.get(interaction.commandName);
       if (!command) {
