@@ -2,23 +2,24 @@ const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require(`disc
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers)
         .setName(`ban`)
-        .setDescription(`Ban a user from the Discord server.`)
+        .setDescription(`Ban a member from the Discord server.`)
+        .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers)
         .addUserOption(option =>
-            option.setName(`user`)
-                .setDescription(`User to be banned.`)
+            option.setName(`member`)
+                .setDescription(`Member to be banned.`)
                 .setRequired(true)
         )
         .addStringOption(option =>
             option.setName(`reason`)
                 .setDescription(`Reason for the ban.`)
+                .setRequired(true)
         ),
 
     async execute(interaction) {
         const { channel, options } = interaction;
 
-        const user = options.getUser(`user`);
+        const user = options.getUser(`member`);
         const reason = options.getString(`reason`) || `No reason provided.`;
 
         const member = await interaction.guild.members.fetch(user.id);
@@ -33,12 +34,11 @@ module.exports = {
         await member.ban({ reason });
 
         const embed = new EmbedBuilder()
+            .setColor(`Red`)
+            .setTitle(`Banned!`)
             .setDescription(`Succesfully banned ${user} with reason: ${reason}`)
-            .setColor(0x5fb041)
-            .setTimestamp()
+            .setTimestamp();
 
-        await interaction.reply({
-            embeds: [embed]
-        });
+        await interaction.reply({ embeds: [embed] });
     }
 }
