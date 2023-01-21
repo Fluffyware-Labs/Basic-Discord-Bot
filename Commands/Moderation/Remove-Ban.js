@@ -2,12 +2,12 @@ const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require(`disc
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers)
         .setName(`remove-ban`)
-        .setDescription(`Remove the ban from a user on the Discord server.`)
+        .setDescription(`Remove the ban from a user in the Discord server.`)
+        .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers)
         .addStringOption(option =>
             option.setName(`userid`)
-                .setDescription(`Discord ID of the user you want to remove the ban from.`)
+                .setDescription(`Discord ID of the user you want to unban.`)
                 .setRequired(true)
         ),
 
@@ -20,8 +20,9 @@ module.exports = {
             await interaction.guild.members.unban(userId);
 
             const embed = new EmbedBuilder()
+                .setColor(`Green`)
+                .setTitle(`Ban removed!`)
                 .setDescription(`Succesfully unbanned id ${userId} from the guild.`)
-                .setColor(0x5fb041)
                 .setTimestamp();
 
             await interaction.reply({
@@ -29,10 +30,16 @@ module.exports = {
             });
         } catch (err) {
             console.log(err);
+            embed
+            .setColor(`Red`)
+            .setDescription(`Something went wrong. Please contact my Senpai <@344340142431141890>`)
+            .setTimestamp();
 
             const errEmbed = new EmbedBuilder()
+                .setColor(`Red`)
+                .setTitle(`Kicked!`)
                 .setDescription(`Please provide a valid member's ID.`)
-                .setColor(0xc72c3b);
+                .setTimestamp();
 
             interaction.reply({ embeds: [errEmbed], ephemeral: true });
         }
