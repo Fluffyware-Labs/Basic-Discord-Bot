@@ -4,9 +4,9 @@ const { model, Schema } = require(`mongoose`);
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .setName(`setup-logs`)
         .setDescription(`Set up your logging channel for the audit logs.`)
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .addChannelOption(option =>
             option.setName(`channel`)
                 .setDescription(`Channel for logging messages.`)
@@ -30,9 +30,11 @@ module.exports = {
                     Channel: logChannel.id
                 });
 
-                embed.setDescription(`Data was succesfully sent to the database.`)
+                embed
                     .setColor(`Green`)
+                    .setDescription(`Data was succesfully sent to the database.`)
                     .setTimestamp();
+
             } else if (data) {
                 logSchema.findOneAndUpdate({ Guild: guildId });
                 await logSchema.updateOne({
@@ -40,14 +42,17 @@ module.exports = {
                     Channel: logChannel.id
                 });
 
-                embed.setDescription(`Old data was succesfully replaced with the new data.`)
+                embed
                     .setColor(`DarkGreen`)
+                    .setDescription(`Old data was succesfully replaced with the new data.`)
                     .setTimestamp();
             }
 
             if (err) {
-                embed.setDescription(`Something went wrong. Please contact the developers`)
+                console.log(err);
+                embed
                     .setColor(`Red`)
+                    .setDescription(`Something went wrong. Please contact my Senpai <@344340142431141890>`)
                     .setTimestamp();
             }
 
