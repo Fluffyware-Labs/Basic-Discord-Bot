@@ -4,9 +4,9 @@ const { model, Schema } = require(`mongoose`);
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .setName(`setup-welcome`)
         .setDescription(`Set up your welcome message for the discord bot.`)
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .addChannelOption(option =>
             option.setName(`channel`)
                 .setDescription(`Channel for welcome messages.`)
@@ -37,25 +37,29 @@ module.exports = {
                     Msg: welcomeMessage
                 });
 
-                embed.setDescription(`Data was succesfully sent to the database.`)
+                embed
                     .setColor(`Green`)
+                    .setDescription(`Data was succesfully sent to the database.`)
                     .setTimestamp();
+
             } else if (data) {
-                welcomeSchema.findOneAndUpdate({ Guild: guildId });
-                await welcomeSchema.updateOne({
+                logSchema.findOneAndUpdate({ Guild: guildId });
+                await logSchema.updateOne({
                     Guild: guildId,
-                    Channel: welcomeChannel.id,
-                    Msg: welcomeMessage
+                    Channel: logChannel.id
                 });
 
-                embed.setDescription(`Old data was succesfully replaced with the new data.`)
+                embed
                     .setColor(`DarkGreen`)
+                    .setDescription(`Old data was succesfully replaced with the new data.`)
                     .setTimestamp();
             }
 
             if (err) {
-                embed.setDescription(`Something went wrong. Please contact the developers`)
+                console.log(err);
+                embed
                     .setColor(`Red`)
+                    .setDescription(`Something went wrong. Please contact my Senpai <@344340142431141890>`)
                     .setTimestamp();
             }
 
