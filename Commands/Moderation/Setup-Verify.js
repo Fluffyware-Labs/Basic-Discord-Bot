@@ -4,9 +4,9 @@ const { model, Schema } = require(`mongoose`);
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .setName(`setup-verify`)
         .setDescription(`Set your verification channel.`)
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .addChannelOption(option =>
             option.setName(`channel`)
                 .setDescription(`Send verification embed in this channel.`)
@@ -34,7 +34,7 @@ module.exports = {
         const verifyEmbed = new EmbedBuilder()
             .setTitle("Verification")
             .setDescription(verificationMessage)
-            .setColor(`0x800080`);
+            .setColor(`0xFF0066`);
 
         if (!interaction.guild.members.me.permissions.has(PermissionFlagsBits.SendMessages)) {
             interaction.reply({ content: `I don't have permissions for this.`, ephemeral: true });
@@ -49,26 +49,29 @@ module.exports = {
                     Role: roleId.id
                 });
 
-                embed.setDescription(`Data was succesfully sent to the database.`)
+                embed
                     .setColor(`Green`)
+                    .setDescription(`Data was succesfully sent to the database.`)
                     .setTimestamp();
+
             } else if (data) {
-                verifiedSchema.findOneAndUpdate({ Guild: guildId });
-                await verifiedSchema.updateOne({
+                logSchema.findOneAndUpdate({ Guild: guildId });
+                await logSchema.updateOne({
                     Guild: guildId,
-                    Channel: verificationChannel.id,
-                    Msg: verificationMessage,
-                    Role: roleId.id
+                    Channel: logChannel.id
                 });
 
-                embed.setDescription(`Old data was succesfully replaced with the new data.`)
-                    .setColor(`Green`)
+                embed
+                    .setColor(`DarkGreen`)
+                    .setDescription(`Old data was succesfully replaced with the new data.`)
                     .setTimestamp();
             }
 
             if (err) {
-                embed.setDescription(`Something went wrong. Please contact the developers`)
+                console.log(err);
+                embed
                     .setColor(`Red`)
+                    .setDescription(`Something went wrong. Please contact my Senpai <@344340142431141890>`)
                     .setTimestamp();
             }
 
@@ -81,7 +84,6 @@ module.exports = {
                         ),
                     ],
                 });
-
         })
     }
 }
