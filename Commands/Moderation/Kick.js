@@ -2,30 +2,35 @@ const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require(`disc
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers)
         .setName(`kick`)
-        .setDescription(`Kick a user from the Discord server.`)
+        .setDescription(`Kick a member from the Discord server.`)
+        .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers)
         .addUserOption(option =>
-            option.setName(`user`)
-                .setDescription(`User to be kicked.`)
+            option.setName(`member`)
+                .setDescription(`Member to be kicked.`)
                 .setRequired(true)
         )
         .addStringOption(option =>
             option.setName(`reason`)
                 .setDescription(`Reason for the kick.`)
+                .setRequired(true)
         ),
 
     async execute(interaction) {
         const { channel, options } = interaction;
 
-        const user = options.getUser(`user`);
+        const user = options.getUser(`member`);
         const reason = options.getString(`reason`) || `No reason provided`;
 
         const member = await interaction.guild.members.fetch(user.id);
 
         const errEmbed = new EmbedBuilder()
+            .setColor(`Red`)
             .setDescription(`You can't take action on ${user.username} since they have a higher role.`)
-            .setColor(0xc72c3b)
+            .setFooter({
+                iconURL: `https://i.imgur.com/9G8N5zu.png`,
+                text: `Powered by Fluffy Code =^_^=`
+            });
 
         if (member.roles.highest.position >= interaction.member.roles.highest.position)
             return interaction.reply({ embeds: [errEmbed], ephemeral: true });
@@ -33,10 +38,11 @@ module.exports = {
         await member.kick(reason);
 
         const embed = new EmbedBuilder()
-            .setDescription(`Succesfully kicked ${user} with reason: ${reason}`);
+            .setColor(`Red`)
+            .setTitle(`Kicked!`)
+            .setDescription(`Succesfully kicked ${user} with reason: ${reason}`)
+            .setTimestamp();
 
-        await interaction.reply({
-            embeds: [embed],
-        });
+        await interaction.reply({ embeds: [embed] });
     }
 }
