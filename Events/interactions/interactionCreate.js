@@ -13,7 +13,6 @@ module.exports = {
       command.execute(interaction, client);
     } else if (interaction.isButton()) {
       {
-        // "name-param1-param2-...."
         const [name, ...params] = interaction.customId.split("-")
 
         const button = client.buttons.get(name)
@@ -44,5 +43,5 @@ module.exports = {
     } else {
       return;
     }
-  },
-};
+  }
+}
