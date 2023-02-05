@@ -9,9 +9,13 @@
   "author": "Ki77y666",
   "license": "ISC",
   "dependencies": {
-    "@discordjs/builders": "^1.1.0",
+    "@discordjs/rest": "^1.5.0",
     "ascii-table": "^0.0.9",
-    "discord.js": "^14.2.0",
+    "canvacord": "^5.4.8",
+    "discord-arts": "^0.4.0-dev.1",
+    "discord-logs": "^2.2.1",
+    "discord.js": "^14.7.1",
+    "discord.js-leveling": "^5.4.0",
     "fs": "^0.0.1-security",
     "mongoose": "^6.5.4",
     "ms": "^2.1.3"
